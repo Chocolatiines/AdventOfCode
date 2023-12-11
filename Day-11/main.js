@@ -7,7 +7,7 @@ const lines = input.split(/\r?\n/);
 let expended = "";
 let cols = [], rows = [];
 
-function expandUniverse() {
+function findDuplicates() {
 
     let stars = [];
 
@@ -43,42 +43,7 @@ function expandUniverse() {
     });
 }
 
-function part1() {
-    expandUniverse();
-
-    let expandedLines = expended.split(/\r?\n/);
-    let starsCoord = [];
-    expandedLines.forEach((line, y) => {
-        for (let x = 0; x < expandedLines[0].length; x++) {
-            if (line[x] == "#") {
-                starsCoord.push([x, y]);
-            }
-        }
-    });
-
-    starsCoord.sort(function (a, b) {
-        if (a[1] !== b[1]) {
-            return a[1] - b[1];
-        } else {
-            return a[0] - b[0];
-        }
-    });
-
-    let sum = 0;
-    starsCoord.forEach((star, index) => {
-        let cpt = 1;
-        while (starsCoord[index + cpt]) {
-            let y = Math.abs(star[1] - starsCoord[index + cpt][1]);
-            let x = Math.abs(star[0] - starsCoord[index + cpt][0]);
-            sum = sum + x + y;
-            cpt++;
-        }
-    });
-
-    console.log("Résultat partie 1 : " + sum);
-}
-
-function part2() {
+function part(part, value) {
     let starsCoord = [];
     lines.forEach((line, y) => {
         for (let x = 0; x < lines[0].length; x++) {
@@ -108,7 +73,7 @@ function part2() {
             return count + (element < star[1] ? 1 : 0);
         }, 0);
 
-        starsCoord[index] = [star[0]+999999*multiplyCols, star[1]+999999*multiplyRows];
+        starsCoord[index] = [star[0]+(value-1)*multiplyCols, star[1]+(value-1)*multiplyRows];
     });
 
     starsCoord.forEach((star, index) => {
@@ -122,10 +87,11 @@ function part2() {
         }
     });
 
-    console.log("Résultat partie 2 : "+sum);
+    console.log("Résultat partie "+part+" : "+sum);
 }
 
-part1();
-part2();
+findDuplicates();
+part("1", 2);
+part("2", 1000000);
 
 
