@@ -2,31 +2,12 @@ const fs = require("fs");
 
 const input = fs.readFileSync('input.txt', 'UTF-8');
 const lines = input.split(/\r?\n/);
+const seeds = lines[0].split(": ")[1].split(" ").map(Number);
 
 const maps = input.split('\n\r');
 
+
 function part1() {
-    const seeds = maps[0].match(/\d+/g).map((x) => parseInt(x, 10));
-    console.log("Partie 1 : " + findLocation(seeds));
-}
-
-function part2() {
-    let seedsOne = [];
-    let seedsTwo = [];
-    let finalLocations = [];
-    const numbers = maps[0].match(/\d+/g).map((x) => parseInt(x, 10));
-    numbers.forEach((number, index) => {
-        if(index%2 == 1) {
-            seedsOne.push(numbers[index-1]);
-            seedsOne.push(numbers[index-1]+number)
-            finalLocations.push(findLocation(seedsOne));
-        }
-    });
-
-    console.log("Partie 2 : " + Math.min(...finalLocations));
-}
-
-function findLocation(seeds) {
     maps.forEach((map, index) => {
         if (index != 0) {
             map = map.split(':')[1].trim();
@@ -53,10 +34,7 @@ function findLocation(seeds) {
         }
     });
 
-    seeds.sort(function(a, b){return a - b});
-    return seeds[0];
+    console.log("Résultat partie 1 : "+Math.min(...seeds));
 }
 
 part1();
-part2();
-
